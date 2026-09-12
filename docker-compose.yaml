@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile # Path to Dockerfile.deploy relative to the context
+      # Dockerfile's ARG defaults already point at localhost. To deploy under a
+      # different domain, add an `args:` block here (VITE_API_BASE_URL, VITE_BASE_PATH).
+    container_name: pest-frontend
+    ports:
+      - "8080:80" # Maps Nginx port 80 in the container to 8080 on the host
+    volumes:
+      - ./i2pdm2-demo-cam:/app
+    environment:
+      - NODE_ENV=development
