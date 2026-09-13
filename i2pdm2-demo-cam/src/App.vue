@@ -3,29 +3,10 @@ import logo from '@/assets/images/bblab_little_logo.png';
 import pestInfo from '@/assets/images/pest-v1.1-info.png';
 import { defineComponent, ref, onMounted, onBeforeUnmount, computed } from "vue";
 import axios from "axios";
-import { useRoute } from "vue-router";
 import { API_BASE_URL } from './config';
-import InfoView from './views/InfoView.vue';
-import HistoryView from './views/HistoryView.vue';
-// import { useRoute } from 'vue-router';
 
 export default defineComponent({
-  components: {
-    InfoView,
-    HistoryView,
-  },
   setup() {
-    const route = useRoute();
-    const userId = ref<string | null>(null);
-    onMounted(() => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const uidParam = urlParams.get("userid");
-      userId.value = uidParam;
-      console.log("✅ location.href", window.location.href);
-      console.log("✅ location.search", window.location.search);
-      console.log("✅ userId from URLSearchParams", uidParam);
-    });
-
     //temp global imageID for pie chart TODO : is there better way to store imageID? Not by global variable?
     const imageIdForPieChart = ref<string | null>(null);
         // Reactive state
@@ -449,8 +430,8 @@ export default defineComponent({
 
           progressPhase.value = 2;
           progressStatus.value = "Detecting pests...";
-          console.log("🚀 準備呼叫 detect API:", `${serverUrl}/pest-detect/detect/${imageId}?userid=${userId.value}`);
-          const detectionResponse = await axios.get(`${serverUrl}/pest-detect/detect/${imageId}?userid=${userId.value}`);
+          console.log("🚀 準備呼叫 detect API:", `${serverUrl}/pest-detect/detect/${imageId}`);
+          const detectionResponse = await axios.get(`${serverUrl}/pest-detect/detect/${imageId}`);
 
           console.log("✅ API 回應:", detectionResponse.data);
           console.log("✅ 圖片資料存在:", !!detectionResponse.data.image);
@@ -685,9 +666,7 @@ export default defineComponent({
       toggleCameraMode,
       pestInfo,
       pieChartImage,
-      userId,
       parsedMetadata,
-      route,
     };
   },
 });
@@ -696,7 +675,7 @@ export default defineComponent({
 
 <template>
   <!-- <div id="app"> -->
-  <div v-if="route.path === '/'">
+  <div>
     <!-- HEADER -->
     <header class="fixed-top" ref="headerRef">
       <!-- Navbar -->
@@ -873,17 +852,6 @@ export default defineComponent({
     <!-- END FOOTER -->
     <!-- </div> -->
    </div>
-   
-  <div v-if="route.path === '/info'">
-    <!-- 第二頁 -->
-    <InfoView />
-  </div>
-
-  <div v-if="route.path === '/history'">
-    <!-- 第三頁 -->
-    <HistoryView />
-  </div>
-
 </template>
 
 <style scoped>
