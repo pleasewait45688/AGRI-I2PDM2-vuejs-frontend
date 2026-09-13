@@ -1,6 +1,8 @@
 # i2pdm2-demo-cam
 
-底下有一些方便使用的 command line 自動化之前暫時留著
+Vue 3 + Vite source for the recognition camera page. See the top-level
+[README](../README.md) for how to run this via Docker; the commands below
+are for local (non-Docker) development.
 
 ## Recommended IDE Setup
 
@@ -54,12 +56,8 @@ npm run build
 npm run test:e2e
 ```
 
-[44903:1110/144509.869595:ERROR:ozone_platform_x11.cc(240)] Missing X server or $DISPLAY
-[44903:1110/144509.869632:ERROR:env.cc(255)] The platform failed to initialize.  Exiting.
-
-```
-unset DISPLAY
-```
+If Cypress fails with `Missing X server or $DISPLAY` on a headless machine,
+run `unset DISPLAY` first.
 
 ### Formatting
 ```sh
